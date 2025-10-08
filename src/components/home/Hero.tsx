@@ -1,52 +1,77 @@
 "use client";
-// Note: We are only modifying this file to replace the buttons with the new carousel.
-// All other animations, text, and the 3D logo remain the same.
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { HomepageCarousel } from "@/components/gallery/HomepageCarousel"; // Import the new carousel
+import { HomepageCarousel } from "@/components/gallery/HomepageCarousel";
+import { SisterConcernLogos } from "@/components/home/SisterConcernLogos";
 
 const LogoScene = dynamic(() => import("@/components/home/LogoScene"), {
   ssr: false,
-  loading: () => <div className="min-h-[250px] w-full" />
+  loading: () => <div className="h-full w-full" />,
 });
 
-const fadeInStagger = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.2 } },
-};
-const fadeIn = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } };
+const fadeIn = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.2 } }};
 
 export default function Hero() {
   const textArtImagePath = "/rahman-group-text.png";
 
   return (
-    <section className="flex min-h-[90vh] w-full items-center overflow-hidden bg-gray-50 py-20 md:min-h-screen">
-      <motion.div
-        className="container mx-auto flex max-w-7xl flex-col items-center px-4 md:px-6"
-        variants={fadeInStagger} initial="hidden" animate="visible"
-      >
-        <motion.h1 variants={fadeIn} className="text-center text-3xl font-bold tracking-tight text-brand-dark sm:text-5xl">
-          Welcome to Rahman Group
-        </motion.h1>
-        <motion.p variants={fadeIn} className="mt-6 max-w-3xl text-center text-lg text-gray-600">
-          A diversified portfolio of businesses driving innovation and quality.
-        </motion.p>
-        <motion.div variants={fadeIn}
-          className="relative mt-8 flex h-72 w-72 flex-col items-center justify-center rounded-full border border-gray-200 bg-white p-4 shadow-md md:h-96 md:w-96"
-        >
-          <div className="h-[170px] w-full max-w-[250px] md:h-[220px]"><LogoScene /></div>
-          <div className="w-full max-w-[220px] px-4 md:max-w-[300px]">
-            <Image src={textArtImagePath} alt="Rahman Group Textart" width={400} height={100} style={{ width: '100%', height: 'auto' }}/>
+    <section className="relative min-h-screen w-full">
+{/* Desktop Background Image (hidden on mobile) */}
+<Image
+  src="/hero-background3.jpg"
+  alt="Background"
+  fill
+  className="object-cover hidden md:block"
+  priority
+/>
+{/* Mobile Background Image (visible only on mobile) */}
+<Image
+  src="/hero-background-mobile.jpg"
+  alt="Background"
+  fill
+  className="object-cover block md:hidden"
+  priority
+/>      <div className="absolute inset-0 bg-theme-background/60 z-10" />
+
+      {/* DESKTOP LAYOUT */}
+      <div className="relative z-20 hidden min-h-screen w-full items-center md:flex">
+        <div className="container mx-auto grid max-w-7xl grid-cols-5 items-center gap-12 px-6">
+          <div className="col-span-3 flex flex-col items-start text-left">
+            <motion.h1 initial="hidden" animate="visible" variants={fadeIn} className="text-5xl lg:text-6xl font-bold tracking-tight text-theme-primary">
+              Welcome to Rahman Group of Companies Ltd.
+            </motion.h1>
+            <motion.div initial="hidden" animate="visible" variants={fadeIn} className="mt-8 flex items-center gap-4">
+              <div className="h-28 w-28 flex-shrink-0"><LogoScene /></div>
+              <Image src={textArtImagePath} alt="Rahman Group Textart" width={400} height={90} />
+            </motion.div>
+            <motion.div initial="hidden" animate="visible" variants={fadeIn} className="mt-12 w-full"><SisterConcernLogos /></motion.div>
           </div>
+          <motion.div initial="hidden" animate="visible" variants={fadeIn} className="col-span-2 w-full">
+             {/* Simplified wrapper */}
+            <div className="shadow-xl"><HomepageCarousel /></div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* MOBILE LAYOUT */}
+      <div className="relative z-20 flex min-h-screen w-full flex-col justify-start px-4 pt-16 pb-12 text-center md:hidden">
+        <motion.h1 initial="hidden" animate="visible" variants={fadeIn} className="text-4xl font-bold tracking-tight text-theme-primary">
+          Welcome to Rahman Group of Companies Ltd.
+        </motion.h1>
+        <motion.div initial="hidden" animate="visible" variants={fadeIn} className="mt-4 flex items-center justify-center gap-2">
+          <div className="h-20 w-20 flex-shrink-0"><LogoScene /></div>
+          <Image src={textArtImagePath} alt="Rahman Group Textart" width={300} height={70} className="w-48 h-auto" />
         </motion.div>
-        
-        {/* === UPDATE: Buttons are replaced by the new Carousel === */}
-        <motion.div variants={fadeIn} className="mt-10 w-full max-w-md">
-          <HomepageCarousel />
-        </motion.div>
-      </motion.div>
+        <motion.div initial="hidden" animate="visible" variants={fadeIn} className="mt-8 w-full"><SisterConcernLogos /></motion.div>
+        <div className="flex-grow flex mt-6">
+          <motion.div initial="hidden" animate="visible" variants={fadeIn} className="w-full">
+            {/* Simplified wrapper */}
+            <div className="shadow-xl"><HomepageCarousel /></div>
+          </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

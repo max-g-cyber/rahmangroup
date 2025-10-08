@@ -9,18 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        /**
-         * == ADJUSTABLE PARAMETERS (RULE 3) ==
-         * Your new 5-color brand palette is now defined.
-         */
-        brand: {
-          light: "#003566", // Medium Blue
-          DEFAULT: "#001D3D", // Dark Navy
-          dark: "#000814"  // Near Black (used for primary text)
+        theme: {
+          primary: "#5a0000", // Your Maroon
+          "primary-dark": "#400000", // A darker maroon for hovers
+          background: "#fff0db", // Your Beige
+          "background-alt": "#fce5c4", // A slightly darker beige for accents
+          text: "#211a13", // A dark brown for text, softer than black
         },
+        // The yellow accent is still here if needed for specific highlights
         accent: {
-          light: "#FFD60A", // Light Yellow
-          DEFAULT: "#FFC300"  // Golden Yellow (Primary CTA Accent)
+          light: "#FFD60A",
+          DEFAULT: "#FFC300",
         },
       },
     },

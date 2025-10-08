@@ -8,10 +8,14 @@ export function HomepageCarousel() {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 4000 })]);
 
   return (
-    <div className="overflow-hidden rounded-lg" ref={emblaRef}>
-      <div className="flex">
+    // === THE DEFINITIVE FIX ===
+    // Removed all 'aspect-ratio' classes.
+    // Using a large, fixed height for mobile (h-80) that scales up for larger screens.
+    // This is the only stable method.
+    <div className="w-full h-80 sm:h-96 md:h-[80vh] md:w-[80vh] overflow-hidden rounded-sm shadow-lg" ref={emblaRef}>
+      <div className="flex h-full">
         {homepageCarouselImages.map((img) => (
-          <div className="relative flex-shrink-0 flex-grow-0 basis-full h-48 md:h-64" key={img.id}>
+          <div className="relative flex-shrink-0 flex-grow-0 basis-full h-full" key={img.id}>
             <Image
               src={img.src}
               alt={img.alt}
