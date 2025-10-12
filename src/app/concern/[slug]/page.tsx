@@ -3,13 +3,18 @@ import PageHeader from "@/components/layout/PageHeader";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
+// UPDATE: Define a proper interface for the page's props for better type safety.
+interface Props {
+  params: { slug: string };
+}
+
 // This function finds the correct business data based on the URL's "slug"
 function getConcernBySlug(slug: string) {
   return sisterConcernsData.find((concern) => concern.slug === slug);
 }
 
-// This function dynamically sets the page title in the browser tab
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+// The 'Props' type is also applied here for consistency
+export async function generateMetadata({ params }: Props) {
   const concern = getConcernBySlug(params.slug);
   if (!concern) {
     return { title: "Business Not Found" };
@@ -20,7 +25,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default function ConcernPage({ params }: { params: { slug: string } }) {
+// UPDATE: Apply the new Props interface to the page component.
+export default function ConcernPage({ params }: Props) {
   const concern = getConcernBySlug(params.slug);
 
   // If no matching business is found, show a 404 Not Found page
@@ -39,18 +45,15 @@ export default function ConcernPage({ params }: { params: { slug: string } }) {
         <div className="container mx-auto max-w-7xl px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             
-            {/* Main Content Column */}
             <div className="md:col-span-2">
               <article className="prose prose-lg max-w-none text-theme-text prose-headings:text-theme-primary">
                 <h2>About {concern.name}</h2>
                 <p>
                   {concern.fullDescription}
                 </p>
-                {/* You can add more sections here like "Our Services", etc. */}
               </article>
             </div>
 
-            {/* Sidebar with Logo */}
             <aside>
               <div className="sticky top-24 rounded-lg bg-theme-background-alt p-8">
                 {concern.logoSrc ? (
