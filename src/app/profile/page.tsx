@@ -11,8 +11,7 @@ export default function ProfilePage() {
       <div className="py-16 sm:py-24">
         <div className="container mx-auto max-w-7xl px-4 md:px-6">
           {/* We use the 'prose' class from @tailwindcss/typography for clean article styling */}
-          <article className="prose prose-lg max-w-none prose-h2:text-brand-dark prose-a:text-brand">
-            <h2>Our Mission</h2>
+ <article className="prose prose-lg max-w-none prose-headings:text-theme-primary prose-a:text-theme-primary">            <h2>Our Mission</h2>
             <p>
               (Placeholder Text): Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. 
               Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris.

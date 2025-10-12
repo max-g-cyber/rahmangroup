@@ -43,10 +43,17 @@ export default function Navbar() {
         </div>
       </div>
       {isMenuOpen && (
-        <div className="border-t border-theme-primary-dark md:hidden">
-          <div className="space-y-1 p-4">{/* Mobile links go here */}</div>
-        </div>
-      )}
+  // UPDATE: Added classes for positioning, transparency, and blur
+  <div className="absolute left-0 right-0 top-16 z-40 border-t border-theme-primary-dark bg-theme-primary/95 backdrop-blur-sm md:hidden">
+    <div className="space-y-1 p-4">
+      <MobileNavLink href="/" onClick={closeMenu}>Home</MobileNavLink>
+      <MobileNavLink href="/profile" onClick={closeMenu}>Company Profile</MobileNavLink>
+      <MobileNavLink href="/?#concerns" onClick={closeMenu}>Sister Concerns</MobileNavLink>
+      <MobileNavLink href="/gallery" onClick={closeMenu}>Gallery</MobileNavLink>
+      <MobileNavLink href="/contact" onClick={closeMenu}>Contact</MobileNavLink>
+    </div>
+  </div>
+)}
     </header>
   );
 }

@@ -39,7 +39,7 @@ export default function Hero() {
       <div className="relative z-20 hidden min-h-screen w-full items-center md:flex">
         <div className="container mx-auto grid max-w-7xl grid-cols-5 items-center gap-12 px-6">
           <div className="col-span-3 flex flex-col items-start text-left">
-            <motion.h1 initial="hidden" animate="visible" variants={fadeIn} className="text-5xl lg:text-6xl font-bold tracking-tight text-theme-primary">
+            <motion.h1 initial="hidden" animate="visible" variants={fadeIn} className=" text-shadow-md text-5xl lg:text-6xl font-bold tracking-tight text-theme-primary ">
               Welcome to Rahman Group of Companies Ltd.
             </motion.h1>
             <motion.div initial="hidden" animate="visible" variants={fadeIn} className="mt-8 flex items-center gap-4">

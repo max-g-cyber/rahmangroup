@@ -1,5 +1,5 @@
 import PageHeader from "@/components/layout/PageHeader";
-import { Phone, Mail, MapPin } from "lucide-react"; // Icons we already installed
+import { Phone, Mail, MapPin, Printer } from "lucide-react";
 
 export default function ContactPage() {
   return (
@@ -15,31 +15,30 @@ export default function ContactPage() {
             
             {/* Column 1: Contact Form Scaffold */}
             <div>
-              <h3 className="text-3xl font-bold text-brand-dark">Send Us a Message</h3>
+              <h3 className="text-3xl font-bold text-theme-text">Send Us a Message</h3>
               <form action="#" method="POST" className="mt-8 space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-brand-dark">Full Name</label>
+                  <label htmlFor="name" className="block text-sm font-medium text-theme-text">Full Name</label>
                   <div className="mt-1">
-                    <input type="text" name="name" id="name" required className="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand focus:ring-brand sm:text-sm p-3" />
+                    <input type="text" name="name" id="name" required className="block w-full rounded-md border-gray-300 shadow-sm focus:border-theme-primary focus:ring-theme-primary sm:text-sm p-3" />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-brand-dark">Email</label>
+                  <label htmlFor="email" className="block text-sm font-medium text-theme-text">Email</label>
                   <div className="mt-1">
-                    <input type="email" name="email" id="email" required className="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand focus:ring-brand sm:text-sm p-3" />
+                    <input type="email" name="email" id="email" required className="block w-full rounded-md border-gray-300 shadow-sm focus:border-theme-primary focus:ring-theme-primary sm:text-sm p-3" />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-brand-dark">Message</label>
+                  <label htmlFor="message" className="block text-sm font-medium text-theme-text">Message</label>
                   <div className="mt-1">
-                    <textarea name="message" id="message" rows={6} required className="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand focus:ring-brand sm:text-sm p-3" />
+                    <textarea name="message" id="message" rows={6} required className="block w-full rounded-md border-gray-300 shadow-sm focus:border-theme-primary focus:ring-theme-primary sm:text-sm p-3" />
                   </div>
                 </div>
                 <div>
-                  {/* Styled with your 'accent' yellow (Phase 6) */}
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md border border-transparent bg-accent px-6 py-3 text-base font-semibold text-brand-dark shadow-sm hover:bg-accent-light focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+                    className="flex w-full justify-center rounded-md border border-transparent bg-theme-primary px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-theme-primary-dark focus:outline-none focus:ring-2 focus:ring-theme-primary focus:ring-offset-2"
                   >
                     Send Message
                   </button>
@@ -47,28 +46,41 @@ export default function ContactPage() {
               </form>
             </div>
 
-            {/* Column 2: Contact Details */}
-            <div className="bg-gray-50 rounded-lg p-8">
-              <h3 className="text-3xl font-bold text-brand-dark">Our Office</h3>
+            {/* Column 2: Contact Details (UPDATED) */}
+            <div className="bg-theme-background-alt rounded-lg p-8">
+              <h3 className="text-3xl font-bold text-theme-text">Our Office</h3>
               <ul className="mt-8 space-y-6 text-gray-700">
                 <li className="flex gap-4">
-                  <MapPin className="h-6 w-6 flex-shrink-0 text-brand" />
+                  <MapPin className="h-6 w-6 flex-shrink-0 text-theme-primary" />
                   <span>
-                    <strong>Address:</strong> (Your Company Address Here)
-                    <br />
-                    Dhaka, Bangladesh
+                    <strong>Address:</strong><br/>
+                    House # 90, Road # 17/A, Block-E, Banani, Dhaka, Bangladesh
                   </span>
                 </li>
                 <li className="flex gap-4">
-                  <Phone className="h-6 w-6 flex-shrink-0 text-brand" />
+                  <Phone className="h-6 w-6 flex-shrink-0 text-theme-primary" />
+                  {/* UPDATE: Re-formatted and separated for clarity */}
                   <span>
-                    <strong>Phone:</strong> (Your Phone Number Here)
+                    <strong>Tel:</strong><br/>
+                    +880 2 8816488<br/>
+                    +880 2 8824173<br/>
+                    +880 2 8829089
                   </span>
                 </li>
                 <li className="flex gap-4">
-                  <Mail className="h-6 w-6 flex-shrink-0 text-brand" />
+                  <Printer className="h-6 w-6 flex-shrink-0 text-theme-primary" />
+                  {/* UPDATE: Re-formatted */}
                   <span>
-                    <strong>Email:</strong> info@rahmangroup.net (Example)
+                    <strong>Fax:</strong><br/>
+                    +880 2 9886294
+                  </span>
+                </li>
+                <li className="flex gap-4">
+                  <Mail className="h-6 w-6 flex-shrink-0 text-theme-primary" />
+                  <span>
+                    <strong>Email:</strong><br/>
+                    info@rahmangroup.net<br/>
+                    rahmanov@dhaka.net
                   </span>
                 </li>
               </ul>
