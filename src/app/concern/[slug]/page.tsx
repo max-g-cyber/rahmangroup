@@ -4,13 +4,12 @@ import PageHeader from "@/components/layout/PageHeader";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
-// Define the complete Props type, including searchParams
 type Props = {
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export function generateStaticParams(): { slug: string }[] {
+export async function generateStaticParams() {
   return sisterConcernsData.map((concern) => ({
     slug: concern.slug,
   }));
@@ -20,19 +19,13 @@ function getConcernBySlug(slug: string) {
   return sisterConcernsData.find((concern) => concern.slug === slug);
 }
 
-// === THE FIX (from Stack Overflow) ===
-// This signature for generateMetadata is now complete, including the 'parent' parameter.
-// This resolves the type inference issue for the entire file.
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const concern = getConcernBySlug(params.slug);
   if (!concern) {
-    // This should ideally not happen if generateStaticParams is correct
-    return {
-      title: "Business Not Found",
-    };
+    return { title: "Business Not Found" };
   }
   return {
     title: `${concern.name} | Rahman Group of Companies Ltd.`,
@@ -40,9 +33,12 @@ export async function generateMetadata(
   };
 }
 
-// The main page component can now use the simple props type without error.
-export default function ConcernPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+// === THE COMBINED FIX ===
+// 1. The page component is now correctly marked as 'async'.
+// 2. The 'params' prop is typed as a 'Promise', as required by the build error.
+export default async function ConcernPage({ params }: { params: Promise<{ slug: string }> }) {
+  // 3. We 'await' the params to get the slug value before using it.
+  const { slug } = await params;
   const concern = getConcernBySlug(slug);
 
   if (!concern) {
