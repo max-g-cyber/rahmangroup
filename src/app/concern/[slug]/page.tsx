@@ -3,13 +3,7 @@ import PageHeader from "@/components/layout/PageHeader";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
-interface Props {
-  params: { slug: string };
-}
-
-// === THE FIX ===
-// This function tells Next.js which pages to generate at build time.
-// It resolves the type error and improves site performance.
+// This function remains the same. It helps Next.js find the pages to build.
 export async function generateStaticParams() {
   return sisterConcernsData.map((concern) => ({
     slug: concern.slug,
@@ -20,7 +14,8 @@ function getConcernBySlug(slug: string) {
   return sisterConcernsData.find((concern) => concern.slug === slug);
 }
 
-export async function generateMetadata({ params }: Props) {
+// This function remains the same.
+export async function generateMetadata({ params }: { params: { slug: string } }) {
   const concern = getConcernBySlug(params.slug);
   if (!concern) {
     return { title: "Business Not Found" };
@@ -31,8 +26,13 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default function ConcernPage({ params }: Props) {
-  const concern = getConcernBySlug(params.slug);
+// === THE FIX ===
+// 1. The component is now 'async'.
+// 2. The 'params' prop is correctly typed as a Promise.
+export default async function ConcernPage({ params }: { params: Promise<{ slug: string }> }) {
+  // 3. We 'await' the params to get the slug value.
+  const { slug } = await params;
+  const concern = getConcernBySlug(slug);
 
   if (!concern) {
     notFound();
