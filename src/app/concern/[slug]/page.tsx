@@ -1,10 +1,16 @@
+import { Metadata, ResolvingMetadata } from 'next';
 import { sisterConcernsData } from "@/data/content";
 import PageHeader from "@/components/layout/PageHeader";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
-// This function remains the same. It helps Next.js find the pages to build.
-export async function generateStaticParams() {
+// Define the complete Props type, including searchParams
+type Props = {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export function generateStaticParams(): { slug: string }[] {
   return sisterConcernsData.map((concern) => ({
     slug: concern.slug,
   }));
@@ -14,11 +20,19 @@ function getConcernBySlug(slug: string) {
   return sisterConcernsData.find((concern) => concern.slug === slug);
 }
 
-// This function remains the same.
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+// === THE FIX (from Stack Overflow) ===
+// This signature for generateMetadata is now complete, including the 'parent' parameter.
+// This resolves the type inference issue for the entire file.
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
   const concern = getConcernBySlug(params.slug);
   if (!concern) {
-    return { title: "Business Not Found" };
+    // This should ideally not happen if generateStaticParams is correct
+    return {
+      title: "Business Not Found",
+    };
   }
   return {
     title: `${concern.name} | Rahman Group of Companies Ltd.`,
@@ -26,12 +40,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-// === THE FIX ===
-// 1. The component is now 'async'.
-// 2. The 'params' prop is correctly typed as a Promise.
-export default async function ConcernPage({ params }: { params: Promise<{ slug: string }> }) {
-  // 3. We 'await' the params to get the slug value.
-  const { slug } = await params;
+// The main page component can now use the simple props type without error.
+export default function ConcernPage({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   const concern = getConcernBySlug(slug);
 
   if (!concern) {
@@ -44,20 +55,15 @@ export default async function ConcernPage({ params }: { params: Promise<{ slug: 
         title={concern.name}
         subtitle={concern.sector}
       />
-
       <div className="py-16 sm:py-24">
         <div className="container mx-auto max-w-7xl px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            
             <div className="md:col-span-2">
               <article className="prose prose-lg max-w-none text-theme-text prose-headings:text-theme-primary">
                 <h2>About {concern.name}</h2>
-                <p>
-                  {concern.fullDescription}
-                </p>
+                <p>{concern.fullDescription}</p>
               </article>
             </div>
-
             <aside>
               <div className="sticky top-24 rounded-lg bg-theme-background-alt p-8">
                 {concern.logoSrc ? (
@@ -77,7 +83,6 @@ export default async function ConcernPage({ params }: { params: Promise<{ slug: 
                 </div>
               </div>
             </aside>
-
           </div>
         </div>
       </div>
