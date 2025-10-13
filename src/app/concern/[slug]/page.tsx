@@ -3,17 +3,23 @@ import PageHeader from "@/components/layout/PageHeader";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
-// UPDATE: Define a proper interface for the page's props for better type safety.
 interface Props {
   params: { slug: string };
 }
 
-// This function finds the correct business data based on the URL's "slug"
+// === THE FIX ===
+// This function tells Next.js which pages to generate at build time.
+// It resolves the type error and improves site performance.
+export async function generateStaticParams() {
+  return sisterConcernsData.map((concern) => ({
+    slug: concern.slug,
+  }));
+}
+
 function getConcernBySlug(slug: string) {
   return sisterConcernsData.find((concern) => concern.slug === slug);
 }
 
-// The 'Props' type is also applied here for consistency
 export async function generateMetadata({ params }: Props) {
   const concern = getConcernBySlug(params.slug);
   if (!concern) {
@@ -25,11 +31,9 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-// UPDATE: Apply the new Props interface to the page component.
 export default function ConcernPage({ params }: Props) {
   const concern = getConcernBySlug(params.slug);
 
-  // If no matching business is found, show a 404 Not Found page
   if (!concern) {
     notFound();
   }
