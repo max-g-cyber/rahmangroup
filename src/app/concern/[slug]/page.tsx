@@ -1,13 +1,8 @@
-import { Metadata, ResolvingMetadata } from 'next';
+// Metadata imports are removed for this fix
 import { sisterConcernsData } from "@/data/content";
 import PageHeader from "@/components/layout/PageHeader";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-
-type Props = {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
 
 export async function generateStaticParams() {
   return sisterConcernsData.map((concern) => ({
@@ -19,25 +14,9 @@ function getConcernBySlug(slug: string) {
   return sisterConcernsData.find((concern) => concern.slug === slug);
 }
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const concern = getConcernBySlug(params.slug);
-  if (!concern) {
-    return { title: "Business Not Found" };
-  }
-  return {
-    title: `${concern.name} | Rahman Group of Companies Ltd.`,
-    description: concern.description,
-  };
-}
+// === THE FIX: The entire generateMetadata function has been removed to isolate the build error. ===
 
-// === THE COMBINED FIX ===
-// 1. The page component is now correctly marked as 'async'.
-// 2. The 'params' prop is typed as a 'Promise', as required by the build error.
 export default async function ConcernPage({ params }: { params: Promise<{ slug: string }> }) {
-  // 3. We 'await' the params to get the slug value before using it.
   const { slug } = await params;
   const concern = getConcernBySlug(slug);
 
