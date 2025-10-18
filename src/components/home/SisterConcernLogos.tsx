@@ -6,7 +6,7 @@ export function SisterConcernLogos() {
   return (
     // UPDATE: The semi-transparent, round-cornered frame is now on this single outer container.
     <div className="w-full rounded-2xl bg-theme-background-alt/20 p-4 backdrop-blur-md shadow-lg">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {sisterConcernsData.map((concern) => (
           // The individual link is now transparent.
           <Link
@@ -20,7 +20,7 @@ export function SisterConcernLogos() {
                 alt={`${concern.name} logo`}
                 width={120}
                 height={60}
-                className="h-full w-auto object-contain"
+                className="h-20 w-auto object-contain"
               />
             ) : (
               <div className="text-center font-semibold text-theme-primary">
