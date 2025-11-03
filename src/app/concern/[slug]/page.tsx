@@ -1,4 +1,4 @@
-import { Metadata } from 'next'; // FIX 1: Removed 'ResolvingMetadata'
+import { Metadata, ResolvingMetadata } from 'next'; // FIX 1: Re-import ResolvingMetadata
 import { sisterConcernsData } from "@/data/content";
 import PageHeader from "@/components/layout/PageHeader";
 import { notFound } from "next/navigation";
@@ -17,7 +17,11 @@ function getConcernBySlug(slug: string) {
   return sisterConcernsData.find((concern) => concern.slug === slug);
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+// === FIX 2: Add 'parent: ResolvingMetadata' to the signature ===
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata // This is the critical fix
+): Promise<Metadata> {
   const concern = getConcernBySlug(params.slug);
   if (!concern) { return { title: "Business Not Found" }; }
   return {
@@ -26,9 +30,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// === FIX 2: Changed component signature to use 'Props' type ===
+// === FIX 3: Use the correct 'Props' type (or { params: ... }) ===
 export default async function ConcernPage({ params }: Props) {
-  // === FIX 3: Removed 'await' since 'params' is a resolved object ===
+  // Logic is now correct, 'params' is a plain object
   const { slug } = params;
   const concern = getConcernBySlug(slug);
 
