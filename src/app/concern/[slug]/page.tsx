@@ -1,13 +1,11 @@
-import { Metadata, ResolvingMetadata } from 'next'; // FIX 1: Re-import ResolvingMetadata
+import { Metadata, ResolvingMetadata } from 'next'; // Restored Metadata imports
 import { sisterConcernsData } from "@/data/content";
 import PageHeader from "@/components/layout/PageHeader";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
-type Props = {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+// No 'Props' type needed for this method
+// type Props = ...
 
 export async function generateStaticParams() {
   return sisterConcernsData.map((concern) => ({ slug: concern.slug }));
@@ -17,12 +15,13 @@ function getConcernBySlug(slug: string) {
   return sisterConcernsData.find((concern) => concern.slug === slug);
 }
 
-// FIX 2: Restore 'parent: ResolvingMetadata' to ensure correct type inference
+// === FIX 1: 'generateMetadata' signature aligned with Next.js 15 ===
 export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata 
+  { params }: { params: Promise<{ slug: string }> },
+  parent: ResolvingMetadata // 'parent' is included for correct type inference
 ): Promise<Metadata> {
-  const concern = getConcernBySlug(params.slug);
+  const { slug } = await params; // Await params here
+  const concern = getConcernBySlug(slug);
   if (!concern) { return { title: "Business Not Found" }; }
   return {
     title: `${concern.name} | Rahman Group of Companies Ltd.`,
@@ -30,14 +29,9 @@ export async function generateMetadata(
   };
 }
 
-// === FIX 3: Implement the correct Next.js 15 'async' page signature ===
-// The signature is changed to accept 'props' based on Stack Overflow solution
-export default async function ConcernPage(props: { 
-  params: Promise<{ slug: string }> 
-}) {
-  
-  // FIX 4: 'await props.params' inside the function
-  const { slug } = await props.params; 
+// === FIX 2: 'ConcernPage' uses the same Next.js 15 signature ===
+export default async function ConcernPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params; // Await params here
   const concern = getConcernBySlug(slug);
 
   if (!concern) { notFound(); }
@@ -144,6 +138,7 @@ export default async function ConcernPage(props: {
                 
               </article>
             </div>
+            {/* Restoring original aside styling */}
             <aside>
               <div className="sticky top-24 rounded-lg bg-white p-8 shadow-sm">
                 {concern.logoSrc ? (
