@@ -1,80 +1,55 @@
-"use client";
-
-import { useState } from "react";
-import { sisterConcernsData, Concern } from "@/data/content";
-import { motion, AnimatePresence } from "framer-motion";
+import { sisterConcernsData } from "@/data/content";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronDown } from "lucide-react";
 
-interface AccordionItemProps {
-  item: Concern;
-  isOpen: boolean;
-  onToggle: () => void;
-}
-
-function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
+// This is the new Company Card component
+function CompanyCard({ concern }: { concern: (typeof sisterConcernsData)[0] }) {
   return (
-    // UPDATE: Removed border between items
-    <div className="overflow-hidden">
-      {/* UPDATE: Tile background is now maroon, text is beige/white */}
-      <button onClick={onToggle} className="flex w-full items-center justify-between p-6 text-left transition-colors bg-theme-primary hover:bg-theme-primary-dark group">
-        <div className="z-10">
-          <p className="text-sm font-medium text-theme-background/80">{item.sector}</p>
-          <h3 className="mt-1 text-2xl font-bold text-white">{item.name}</h3>
-        </div>
-        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.3 }}>
-          <ChevronDown className="h-6 w-6 text-theme-background" />
-        </motion.div>
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            // The expanded area remains a light color for readability
-            className="bg-theme-background-alt"
-          >
-            <div className="p-6">
-              <p className="text-theme-text/90">{item.description}</p>
-              <Link
-                href={`/concern/${item.slug}`}
-                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-theme-primary hover:text-theme-primary-dark"
-              >
-                Learn More
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </motion.div>
+    <Link
+      href={`/concern/${concern.slug}`}
+      className="group block overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+    >
+      <div className="relative h-40 w-full">
+        {concern.logoSrc ? (
+          <Image
+            src={concern.logoSrc}
+            alt={`${concern.name} Logo`}
+            fill
+            className="object-contain p-8"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center p-4">
+            <h3 className="text-xl font-bold text-theme-primary">{concern.name}</h3>
+          </div>
         )}
-      </AnimatePresence>
-    </div>
+      </div>
+      <div className="p-5">
+        <h3 className="text-lg font-bold text-theme-text">{concern.name}</h3>
+        <p className="mt-1 text-sm text-theme-text/70">{concern.sector}</p>
+        <span className="mt-4 inline-flex items-center text-sm font-semibold text-theme-accent transition-colors group-hover:text-theme-primary">
+          Learn More &rarr;
+        </span>
+      </div>
+    </Link>
   );
 }
 
+// This is the main component that renders the grid
 export default function ConcernsGrid() {
-  const [openId, setOpenId] = useState<number | null>(null);
-
   return (
     <section id="concerns" className="bg-theme-background py-16 sm:py-24 scroll-mt-16">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
         <div className="max-w-2xl">
-          <h2 className="text-base font-semibold leading-7 text-theme-primary">Our Businesses</h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-theme-text sm:text-4xl">
-            The Sister Concerns of Rahman Group of Companies Ltd.
+          <h2 className="text-base font-semibold leading-7 text-theme-accent">Our Businesses</h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-theme-primary sm:text-4xl">
+            The Sister Concerns
           </p>
         </div>
-        {/* UPDATE: Container for the new themed tiles */}
-        <div className="mt-12 overflow-hidden rounded-lg shadow-lg">
-          {sisterConcernsData.map((item) => (
-            <AccordionItem 
-              key={item.id} 
-              item={item} 
-              isOpen={openId === item.id} 
-              onToggle={() => setOpenId(openId === item.id ? null : item.id)}
-            />
+
+        {/* The new 3-column grid */}
+        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {sisterConcernsData.map((concern) => (
+            <CompanyCard key={concern.id} concern={concern} />
           ))}
         </div>
       </div>

@@ -1,77 +1,110 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { HomepageCarousel } from "@/components/gallery/HomepageCarousel";
-import { SisterConcernLogos } from "@/components/home/SisterConcernLogos";
+import { KeywordRibbon } from "@/components/home/KeywordRibbon";
+import Autoplay from "embla-carousel-autoplay";
+import useEmblaCarousel from "embla-carousel-react";
+import { homepageCarouselImages } from "@/data/gallery";
+import { AnimatedActivities } from "@/components/home/AnimatedActivities";
 
-const LogoScene = dynamic(() => import("@/components/home/LogoScene"), {
-  ssr: false,
-  loading: () => <div className="h-full w-full" />,
-});
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.2 } }
+};
 
-const fadeIn = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.2 } }};
-
-export default function Hero() {
-  const textArtImagePath = "/rahman-group-text.png";
-
+// --- Integrated Carousel Component ---
+function IntegratedCarousel() {
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 4000 })]);
+  
   return (
-    <section className="relative min-h-screen w-full">
-{/* Desktop Background Image (hidden on mobile) */}
-<Image
-  src="/hero-background3.jpg"
-  alt="Background"
-  fill
-  className="object-cover hidden md:block"
-  priority
-/>
-{/* Mobile Background Image (visible only on mobile) */}
-<Image
-  src="/hero-background-mobile.jpg"
-  alt="Background"
-  fill
-  className="object-cover block md:hidden"
-  priority
-/>      <div className="absolute inset-0 bg-theme-background/60 z-10" />
-
-      {/* DESKTOP LAYOUT */}
-      <div className="relative z-20 hidden min-h-screen w-full items-center md:flex">
-        <div className="container mx-auto grid max-w-7xl grid-cols-5 items-center gap-12 px-6">
-          <div className="col-span-3 flex flex-col items-start text-left">
-            <motion.h1 initial="hidden" animate="visible" variants={fadeIn} className=" text-shadow-md text-5xl lg:text-6xl font-bold tracking-tight text-theme-primary ">
-              Welcome to Rahman Group of Companies Ltd.
-            </motion.h1>
-            <motion.div initial="hidden" animate="visible" variants={fadeIn} className="mt-8 flex items-center gap-4">
-              <div className="h-28 w-28 flex-shrink-0"><LogoScene /></div>
-              <Image src={textArtImagePath} alt="Rahman Group Textart" width={400} height={90} />
-            </motion.div>
-            <motion.div initial="hidden" animate="visible" variants={fadeIn} className="mt-12 w-full"><SisterConcernLogos /></motion.div>
+    // The responsive sizing classes are on this viewport
+    <div 
+      className="relative w-full overflow-hidden aspect-square md:aspect-auto md:h-full" 
+      ref={emblaRef}
+    >
+      <div className="flex h-full">
+        {homepageCarouselImages.map((img) => (
+          <div className="relative flex-shrink-0 flex-grow-0 basis-full h-full" key={img.id}>
+            {/*
+              * === THE FIX ===
+              * Removed 'fill' prop.
+              * Added explicit 'width' and 'height' props (ratio 1:1)
+              * Added 'h-full w-full' to className to fill the slide container.
+              * This resolves the "height: 0" error from next/image.
+            */}
+            <Image
+              src={img.src}
+              alt={img.alt}
+              width={800} // /* ADJUSTABLE: Optimization prop, 1:1 ratio */
+              height={800} // /* ADJUSTABLE: Optimization prop, 1:1 ratio */
+              className="object-cover h-full w-full" // Fills the slide
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority={true}
+            />
           </div>
-          <motion.div initial="hidden" animate="visible" variants={fadeIn} className="col-span-2 w-full">
-             {/* Simplified wrapper */}
-            <div className="shadow-xl"><HomepageCarousel /></div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// --- Main Hero Component ---
+export default function Hero() {
+  return (
+    // Root uses flex-col to position ribbon at the bottom
+    <section className="relative flex flex-col bg-theme-background">
+
+      {/* 1. Main Content (Image + Text) */}
+      <div className="order-1 flex flex-col pt-16 md:grid md:grid-cols-2 md:min-h-screen">
+
+        {/* --- Image Slideshow Block --- */}
+        <div className="relative order-1 w-full md:order-2 md:h-full">
+          <IntegratedCarousel />
+        </div>
+
+        {/* --- Text Content Block --- */}
+        <div className="order-2 w-full md:order-1 flex flex-col justify-center">
+          <motion.div
+            className="w-full px-4 py-12 text-center md:px-6 md:py-16 md:text-left lg:px-12"
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+          >
+            {/* Logo - Only on Mobile */}
+            <div className="mb-6 md:hidden">
+              <Image
+                src="/logos/rg-logo.png"
+                alt="Rahman Group Logo"
+                // === TYPO FIX ===
+                // Corrected '10SameSite' to '100'
+                width={100}
+                height={100}
+                className="mx-auto h-20 w-auto"
+              />
+            </div>
+
+            {/* Updated Title */}
+            <h1 className="text-4xl font-bold tracking-tight text-theme-primary sm:text-5xl md:text-6xl">
+              Welcome to Rahman Group of Companies Ltd.
+            </h1>
+            <p className="mt-4 text-lg text-theme-text/80 md:text-xl">
+              A diversified portfolio of businesses driving innovation and quality.
+            </p>
+            <div className="mt-8">
+              <h2 className="text-lg font-medium text-theme-text">What We Do?</h2>
+              <AnimatedActivities />
+            </div>
           </motion.div>
         </div>
+        
       </div>
 
-      {/* MOBILE LAYOUT */}
-      <div className="relative z-20 flex min-h-screen w-full flex-col justify-start px-4 pt-16 pb-12 text-center md:hidden">
-        <motion.h1 initial="hidden" animate="visible" variants={fadeIn} className="text-4xl font-bold tracking-tight text-theme-primary">
-          Welcome to Rahman Group of Companies Ltd.
-        </motion.h1>
-        <motion.div initial="hidden" animate="visible" variants={fadeIn} className="mt-4 flex items-center justify-center gap-2">
-          <div className="h-20 w-20 flex-shrink-0"><LogoScene /></div>
-          <Image src={textArtImagePath} alt="Rahman Group Textart" width={300} height={70} className="w-48 h-auto" />
-        </motion.div>
-        <motion.div initial="hidden" animate="visible" variants={fadeIn} className="mt-8 w-full"><SisterConcernLogos /></motion.div>
-        <div className="flex-grow flex mt-6">
-          <motion.div initial="hidden" animate="visible" variants={fadeIn} className="w-full">
-            {/* Simplified wrapper */}
-            <div className="shadow-xl"><HomepageCarousel /></div>
-          </motion.div>
-        </div>
+      {/* 2. Keyword Ribbon (Bottom on all sizes) */}
+      <div className="order-2"> {/* order-2 places it at the bottom of the flex container */}
+        <KeywordRibbon />
       </div>
+
     </section>
   );
 }

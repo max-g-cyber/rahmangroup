@@ -14,10 +14,8 @@ export interface ImageCategory {
 
 // Data for the carousel on the homepage hero section.
 export const homepageCarouselImages: GalleryImage[] = [
-  { id: 1, src: "/gallery/01.jpg", alt: "Rahman Group company photo 1" },
-  { id: 2, src: "/gallery/02.jpg", alt: "Rahman Group company photo 2" },
-  { id: 3, src: "/gallery/03.jpg", alt: "Rahman Group company photo 3" },
-  { id: 6, src: "/gallery/06.jpg", alt: "Rahman Group company photo 6" },
+  { id: 1, src: "/hero-slide-1.jpg", alt: "Rahman Group Hero Image 1" },
+  { id: 2, src: "/hero-slide-2.jpg", alt: "Rahman Group Hero Image 2" },
 ];
 
 // Data for the main /gallery page. All images are in one category for now.

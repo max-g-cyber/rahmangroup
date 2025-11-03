@@ -12,9 +12,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  // UPDATE: Using the full company name
   title: "Rahman Group of Companies Ltd. - Corporate Portfolio",
-  description: "The official corporate portfolio for the Rahman Group of Companies Ltd.",
+  description: "A diversified portfolio of businesses in textiles, trade, real estate, and more.",
 };
 
 export default function RootLayout({
@@ -23,8 +22,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // UPDATE: Applying the new background and text colors
-    <html lang="en" className="bg-theme-background text-theme-text antialiased">
+    // The base colors are now applied in globals.css
+    <html lang="en">
       <body className={poppins.className}>
         <Navbar />
         <main>{children}</main>

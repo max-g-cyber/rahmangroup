@@ -1,16 +1,15 @@
 "use client";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import { homepageCarouselImages } from "@/data/gallery"; // Assuming this still has placeholder images
+import { homepageCarouselImages } from "@/data/gallery";
 import Image from "next/image";
 
 export function HomepageCarousel() {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 4000 })]);
 
   return (
-    // UPDATE: Removed specific desktop height (md:h-96).
-    // It's now square on mobile and fills available height on desktop ('md:h-full').
-    <div className="w-full aspect-square md:aspect-auto md:h-full overflow-hidden" ref={emblaRef}>
+    // Only fills its parent container. NO aspect ratio or fixed height here.
+    <div className="overflow-hidden h-full w-full rounded-lg md:rounded-none" ref={emblaRef}> {/* Removed md:rounded-none if sharp edges desired */}
       <div className="flex h-full">
         {homepageCarouselImages.map((img) => (
           <div className="relative flex-shrink-0 flex-grow-0 basis-full h-full" key={img.id}>
@@ -18,7 +17,8 @@ export function HomepageCarousel() {
               src={img.src}
               alt={img.alt}
               fill
-              className="object-cover" // Removed rounded-lg for sharp edges
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw" // Optimization
             />
           </div>
         ))}

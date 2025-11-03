@@ -9,17 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        /**
+         * == ADJUSTABLE PARAMETERS (RULE 3) ==
+         * Your new "Eco-Industrial + Gold" palette
+         */
         theme: {
-          primary: "#5a0000", // Your Maroon
-          "primary-dark": "#400000", // A darker maroon for hovers
-          background: "#fff0db", // Your Beige
-          "background-alt": "#fce5c4", // A slightly darker beige for accents
-          text: "#211a13", // A dark brown for text, softer than black
-        },
-        // The yellow accent is still here if needed for specific highlights
-        accent: {
-          light: "#FFD60A",
-          DEFAULT: "#FFC300",
+          background: "#F0EAD6", // Sand/Tan
+          text: "#4A4A4A",       // Dark Brown
+          primary: "#22573D",    // Forest Green
+          "primary-dark": "#1a432e", // Darker Green
+          accent: "#B8860B",     // Gold
         },
       },
     },
