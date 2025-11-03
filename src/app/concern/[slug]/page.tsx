@@ -17,7 +17,8 @@ function getConcernBySlug(slug: string) {
   return sisterConcernsData.find((concern) => concern.slug === slug);
 }
 
-export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+// === FIX 1: Removed unused 'parent' parameter ===
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const concern = getConcernBySlug(params.slug);
   if (!concern) { return { title: "Business Not Found" }; }
   return {
@@ -97,7 +98,8 @@ export default async function ConcernPage({ params }: { params: Promise<{ slug: 
                     <hr className="my-8 border-theme-accent/20" />
                     <h2>Our Facilities</h2>
                     <p>
-                      Rahtex Industries operates multiple production units. Our primary textile facility is located in Madhabdi, Norshingdi, famously known as the "Manchester of Bangladesh". Our readymade garment (RMG) factories are situated in Baipail and Dosaid Bazar, within Ashulia, Savar. These facilities collectively span tens of thousands of square feet and are equipped with hundreds of modern machines, enabling substantial production capacities for the global market. We are committed to maintaining environmentally friendly operations across all our sites.
+                      {/* === FIX 2: Escaped quotes === */}
+                      Rahtex Industries operates multiple production units. Our primary textile facility is located in Madhabdi, Norshingdi, famously known as the &quot;Manchester of Bangladesh&quot;. Our readymade garment (RMG) factories are situated in Baipail and Dosaid Bazar, within Ashulia, Savar. These facilities collectively span tens of thousands of square feet and are equipped with hundreds of modern machines, enabling substantial production capacities for the global market. We are committed to maintaining environmentally friendly operations across all our sites.
                     </p>
                   </>
                 )}
@@ -125,8 +127,10 @@ export default async function ConcernPage({ params }: { params: Promise<{ slug: 
                       <li><strong>Experience & Reputation:</strong> Decades of proven experience since 1997, recognized with awards for excellence in manpower export.</li>
                       <li><strong>Professionalism:</strong> A dedicated team and modern communication facilities ensure efficient and reliable service.</li>
                       <li><strong>Rigorous Selection:</strong> Our multi-stage selection process (physical, practical, viva, psychological) ensures candidates meet employer expectations precisely.</li>
-                      <li><strong>Quality Workforce:</strong> We provide access to Bangladesh's diligent, honest, and hardworking labor force.</li> {/* Corrected spelling */}
-                      <li><strong>Commitment:</strong> We operate under the principle that "Our first success job will bring the next job," ensuring complete client satisfaction.</li>
+                      {/* === FIX 3: Escaped apostrophe === */}
+                      <li><strong>Quality Workforce:</strong> We provide access to Bangladesh&apos;s diligent, honest, and hardworking labor force.</li> {/* Corrected spelling */}
+                      {/* === FIX 4: Escaped quotes === */}
+                      <li><strong>Commitment:</strong> We operate under the principle that &quot;Our first success job will bring the next job,&quot; ensuring complete client satisfaction.</li>
                       <li><strong>Swift Service:</strong> We prioritize timely deployment according to employer demands.</li>
                     </ul>
                   </>
