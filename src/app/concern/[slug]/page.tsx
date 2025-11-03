@@ -17,10 +17,10 @@ function getConcernBySlug(slug: string) {
   return sisterConcernsData.find((concern) => concern.slug === slug);
 }
 
-// === FIX 2: Add 'parent: ResolvingMetadata' to the signature ===
+// FIX 2: Restore 'parent: ResolvingMetadata' to ensure correct type inference
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata // This is the critical fix
+  parent: ResolvingMetadata 
 ): Promise<Metadata> {
   const concern = getConcernBySlug(params.slug);
   if (!concern) { return { title: "Business Not Found" }; }
@@ -30,10 +30,14 @@ export async function generateMetadata(
   };
 }
 
-// === FIX 3: Use the correct 'Props' type (or { params: ... }) ===
-export default async function ConcernPage({ params }: Props) {
-  // Logic is now correct, 'params' is a plain object
-  const { slug } = params;
+// === FIX 3: Implement the correct Next.js 15 'async' page signature ===
+// The signature is changed to accept 'props' based on Stack Overflow solution
+export default async function ConcernPage(props: { 
+  params: Promise<{ slug: string }> 
+}) {
+  
+  // FIX 4: 'await props.params' inside the function
+  const { slug } = await props.params; 
   const concern = getConcernBySlug(slug);
 
   if (!concern) { notFound(); }
