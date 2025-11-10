@@ -16,6 +16,7 @@ export interface ImageCategory {
 export const homepageCarouselImages: GalleryImage[] = [
   { id: 1, src: "/hero-slide-1.jpg", alt: "Rahman Group Hero Image 1" },
   { id: 2, src: "/hero-slide-2.jpg", alt: "Rahman Group Hero Image 2" },
+  { id: 3, src: "/hero-slide-3.jpg", alt: "Rahman Group Hero Image 3" },
 ];
 
 // Data for the main /gallery page. All images are in one category for now.
