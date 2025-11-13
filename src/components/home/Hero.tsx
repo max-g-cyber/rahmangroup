@@ -56,7 +56,7 @@ export default function Hero() {
     <section className="relative flex flex-col bg-theme-background">
 
       {/* 1. Main Content (Image + Text) */}
-      <div className="order-1 flex flex-col pt-16 md:grid md:grid-cols-2 md:min-h-screen">
+      <div className="order-1 flex flex-col pt-2 md:grid md:grid-cols-2 md:min-h-screen">
 
         {/* --- Image Slideshow Block --- */}
         <div className="relative order-1 w-full md:order-2 md:h-full">
