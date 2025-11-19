@@ -24,7 +24,7 @@ const marqueeTransition: Transition = {
 
 export function KeywordRibbon() {
   return (
-    <div className="w-full overflow-x-hidden py-3 bg-theme-background-alt border-y border-theme-accent/20">
+    <div className="w-full overflow-x-hidden py-3 bg-theme-accent/80 border-y border-theme-accent/20">
       <motion.div
         className="whitespace-nowrap flex"
         variants={marqueeVariants}
