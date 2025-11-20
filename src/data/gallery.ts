@@ -19,7 +19,7 @@ export const homepageCarouselImages: GalleryImage[] = [
   { id: 3, src: "/hero-slide-3.jpg", alt: "Rahman Group Hero Image 3" },
 ];
 
-// Data for the main /gallery page. All images are in one category for now.
+// AData for the main /gallery page. All images are in one category for now.
 export const galleryCategories: ImageCategory[] = [
   {
     id: "corporate",
